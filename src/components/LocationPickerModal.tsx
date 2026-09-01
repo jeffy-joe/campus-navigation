@@ -60,8 +60,8 @@ export const LocationPickerModal: React.FC<LocationPickerModalProps> = ({
     });
 
     return (
-      <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-slate-900/50 backdrop-blur-sm animate-in fade-in">
-        <div className="bg-white rounded-t-[28px] sm:rounded-3xl shadow-2xl border border-slate-100 w-full sm:max-w-lg overflow-hidden flex flex-col h-[85vh] sm:h-[620px] max-h-[92vh] sm:max-h-[90vh]">
+      <div onClick={onClose} className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-slate-900/50 backdrop-blur-sm animate-in fade-in">
+        <div onClick={(e) => e.stopPropagation()} className="bg-white rounded-t-[28px] sm:rounded-3xl shadow-2xl border border-slate-100 w-full sm:max-w-lg overflow-hidden flex flex-col h-[85vh] sm:h-[620px] max-h-[92vh] sm:max-h-[90vh]">
           {/* Header */}
           <div className="p-5 text-white bg-gradient-to-r from-rose-600 via-pink-600 to-purple-600">
             <div className="flex items-center justify-between">
@@ -173,8 +173,8 @@ export const LocationPickerModal: React.FC<LocationPickerModalProps> = ({
     : [];
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-slate-900/50 backdrop-blur-sm animate-in fade-in">
-      <div className="bg-white rounded-t-[28px] sm:rounded-3xl shadow-2xl border border-slate-100 w-full sm:max-w-lg overflow-hidden flex flex-col h-[85vh] sm:h-[620px] max-h-[92vh] sm:max-h-[90vh]">
+    <div onClick={onClose} className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-slate-900/50 backdrop-blur-sm animate-in fade-in">
+      <div onClick={(e) => e.stopPropagation()} className="bg-white rounded-t-[28px] sm:rounded-3xl shadow-2xl border border-slate-100 w-full sm:max-w-lg overflow-hidden flex flex-col h-[85vh] sm:h-[620px] max-h-[92vh] sm:max-h-[90vh]">
         {/* Header */}
         <div className="p-5 text-white bg-gradient-to-r from-primary-600 via-indigo-600 to-purple-600">
           <div className="flex items-center justify-between">

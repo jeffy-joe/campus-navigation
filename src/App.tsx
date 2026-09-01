@@ -7,6 +7,7 @@ import { NavigateView } from './components/views/NavigateView';
 import { ExploreFloorsView } from './components/views/ExploreFloorsView';
 import { CampusMapView } from './components/views/CampusMapView';
 import { RoomModal } from './components/map/RoomModal';
+import { LocationPickerModal } from './components/LocationPickerModal';
 import { getAllSearchableLocations } from './data/campusData';
 import { findShortestPath } from './utils/pathfinder';
 import { CategoryType, Room } from './types/campus';
@@ -21,7 +22,16 @@ export function App() {
   const [activeModalRoom, setActiveModalRoom] = useState<Room | null>(null);
   const [showRouteOverview, setShowRouteOverview] = useState(false);
 
+  // State for asking current location modal when navigating from Explore Floors / RoomModal
+  const [isLocationPickerOpen, setIsLocationPickerOpen] = useState(false);
+  const [pendingDestinationId, setPendingDestinationId] = useState<string | null>(null);
+
   const allLocations = useMemo(() => getAllSearchableLocations(), []);
+
+  const pendingDestinationObj = useMemo(() => {
+    if (!pendingDestinationId) return null;
+    return allLocations.find((l) => l.id === pendingDestinationId);
+  }, [pendingDestinationId, allLocations]);
 
   // Compute Dijkstra Shortest Path across floors
   const navResult = useMemo(() => {
@@ -51,12 +61,33 @@ export function App() {
 
   const handleNavigateToRoom = (roomId: string) => {
     setDestinationId(roomId);
+    setPendingDestinationId(roomId);
     const loc = allLocations.find((l) => l.id === roomId);
     if (loc) {
       setSelectedFloorCode(loc.floorCode);
     }
+    // Always ask for current location when navigating to a room/floor from Explore Floors
+    setIsLocationPickerOpen(true);
+  };
+
+  const handleSelectStartLocationForNav = (startId: string) => {
+    setCurrentLocationId(startId);
+    if (pendingDestinationId) {
+      setDestinationId(pendingDestinationId);
+      const loc = allLocations.find((l) => l.id === pendingDestinationId);
+      if (loc) {
+        setSelectedFloorCode(loc.floorCode);
+      }
+    }
     setShowRouteOverview(true);
     setActiveTab('navigate');
+    setIsLocationPickerOpen(false);
+    setPendingDestinationId(null);
+  };
+
+  const handleCloseLocationPicker = () => {
+    setIsLocationPickerOpen(false);
+    setPendingDestinationId(null);
   };
 
   const handleSetAsStart = (roomId: string) => {
@@ -155,6 +186,21 @@ export function App() {
         onClose={() => setActiveModalRoom(null)}
         onNavigateHere={handleNavigateToRoom}
         onSetAsStart={handleSetAsStart}
+      />
+
+      {/* Location Picker Modal when navigating to a room/floor from Explore Floors */}
+      <LocationPickerModal
+        isOpen={isLocationPickerOpen}
+        title="Where are you right now?"
+        subtitle={
+          pendingDestinationObj
+            ? `Navigate to ${pendingDestinationObj.name} (Floor ${pendingDestinationObj.floorCode})`
+            : undefined
+        }
+        isDestination={false}
+        selectedLocationId={currentLocationId}
+        onSelectLocation={handleSelectStartLocationForNav}
+        onClose={handleCloseLocationPicker}
       />
     </div>
   );
