@@ -14,11 +14,16 @@ import { CategoryType, Room } from './types/campus';
 
 export function App() {
   const [activeTab, setActiveTab] = useState<ActiveTab>(() => {
-    const saved = localStorage.getItem('campus_activeTab');
-    return (saved as ActiveTab) || 'dashboard';
+    if (typeof window !== 'undefined' && window.location.hash) {
+      const hash = window.location.hash.replace('#', '') as ActiveTab;
+      if (['dashboard', 'navigate', 'explore', 'map'].includes(hash)) {
+        return hash;
+      }
+    }
+    return 'dashboard';
   });
 
-  // Initial navigation state (persisted in localStorage)
+  // Initial navigation state
   const [currentLocationId, setCurrentLocationId] = useState<string>(() => {
     return localStorage.getItem('campus_currentLocationId') || '';
   });
@@ -37,11 +42,7 @@ export function App() {
   const [isLocationPickerOpen, setIsLocationPickerOpen] = useState(false);
   const [pendingDestinationId, setPendingDestinationId] = useState<string | null>(null);
 
-  // Sync state changes to localStorage
-  useEffect(() => {
-    localStorage.setItem('campus_activeTab', activeTab);
-  }, [activeTab]);
-
+  // Sync location selection state changes to localStorage
   useEffect(() => {
     localStorage.setItem('campus_currentLocationId', currentLocationId);
   }, [currentLocationId]);
@@ -85,11 +86,12 @@ export function App() {
 
   // Listen to mobile hardware / gesture Back button (popstate event)
   useEffect(() => {
-    // Initial hash setup
+    // Fresh app launch always starts at Home / Dashboard unless URL explicitly has a hash
     const initialHash = window.location.hash.replace('#', '') as ActiveTab;
-    if (!window.location.hash) {
-      window.history.replaceState({ tab: activeTab }, '', `#${activeTab}`);
-    } else if (['dashboard', 'navigate', 'explore', 'map'].includes(initialHash)) {
+    if (!window.location.hash || initialHash === 'dashboard') {
+      window.history.replaceState({ tab: 'dashboard' }, '', '#dashboard');
+      setActiveTab('dashboard');
+    } else if (['navigate', 'explore', 'map'].includes(initialHash)) {
       setActiveTab(initialHash);
     }
 
