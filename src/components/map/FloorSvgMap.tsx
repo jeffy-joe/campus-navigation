@@ -239,156 +239,187 @@ export const FloorSvgMap: React.FC<FloorSvgMapProps> = ({
     );
   }
 
-  // Floor 7: Exact Replica of Official Architectural Blueprint Image
+  // Floor 7: Colorful & Newcomer-Friendly Blueprint Map (100% Architectural Precision)
   if (floorCode === '7') {
     const isRoomSelected = (id: string) => highlightedRoomId === id || destinationRoomId === id;
 
     return (
-      <div className="w-full h-full min-h-[550px] flex items-center justify-center p-2 relative select-none bg-white">
-        <svg viewBox="0 0 440 850" className="w-full h-full max-h-[820px] font-sans">
-          {/* Compass Indicators */}
-          <text x="60" y="32" fill="#000000" fontSize="22" fontWeight="bold" textAnchor="middle">NE</text>
-          <text x="220" y="32" fill="#000000" fontSize="22" fontWeight="bold" textAnchor="middle">E</text>
-          <text x="380" y="32" fill="#000000" fontSize="22" fontWeight="bold" textAnchor="middle">SE</text>
+      <div className="w-full h-full min-h-[550px] flex items-center justify-center p-2 relative select-none bg-slate-50/50">
+        <svg viewBox="0 0 440 850" className="w-full h-full max-h-[820px] font-sans drop-shadow-lg">
+          <defs>
+            <linearGradient id="lobbyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#FFEDD5" />
+              <stop offset="100%" stopColor="#FED7AA" />
+            </linearGradient>
+            <filter id="neonGlow" x="-20%" y="-20%" width="140%" height="140%">
+              <feGaussianBlur stdDeviation="4" result="blur" />
+              <feMerge>
+                <feMergeNode in="blur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+          </defs>
 
-          <text x="24" y="425" fill="#000000" fontSize="22" fontWeight="bold" textAnchor="middle">N</text>
-          <text x="416" y="425" fill="#000000" fontSize="22" fontWeight="bold" textAnchor="middle">S</text>
+          {/* Compass Direction Badges */}
+          <g>
+            <rect x="42" y="12" width="36" height="24" rx="6" fill="#0F172A" />
+            <text x="60" y="29" fill="#FFFFFF" fontSize="13" fontWeight="900" textAnchor="middle">NE</text>
 
-          <text x="60" y="835" fill="#000000" fontSize="22" fontWeight="bold" textAnchor="middle">NW</text>
-          <text x="220" y="835" fill="#000000" fontSize="22" fontWeight="bold" textAnchor="middle">E</text>
-          <text x="380" y="835" fill="#000000" fontSize="22" fontWeight="bold" textAnchor="middle">SW</text>
+            <rect x="202" y="12" width="36" height="24" rx="6" fill="#0284C7" />
+            <text x="220" y="29" fill="#FFFFFF" fontSize="13" fontWeight="900" textAnchor="middle">E</text>
 
-          {/* Outer Blueprint Container Border */}
-          <rect x="42" y="45" width="356" height="765" fill="#FFFFFF" stroke="#000000" strokeWidth="1" />
+            <rect x="362" y="12" width="36" height="24" rx="6" fill="#0F172A" />
+            <text x="380" y="29" fill="#FFFFFF" fontSize="13" fontWeight="900" textAnchor="middle">SE</text>
 
-          {/* Floor Building Shell Boundary */}
+            <rect x="6" y="413" width="36" height="24" rx="6" fill="#0284C7" />
+            <text x="24" y="430" fill="#FFFFFF" fontSize="13" fontWeight="900" textAnchor="middle">N</text>
+
+            <rect x="398" y="413" width="36" height="24" rx="6" fill="#0284C7" />
+            <text x="416" y="430" fill="#FFFFFF" fontSize="13" fontWeight="900" textAnchor="middle">S</text>
+
+            <rect x="42" y="817" width="36" height="24" rx="6" fill="#0F172A" />
+            <text x="60" y="834" fill="#FFFFFF" fontSize="13" fontWeight="900" textAnchor="middle">NW</text>
+
+            <rect x="202" y="817" width="36" height="24" rx="6" fill="#0284C7" />
+            <text x="220" y="834" fill="#FFFFFF" fontSize="13" fontWeight="900" textAnchor="middle">E</text>
+
+            <rect x="362" y="817" width="36" height="24" rx="6" fill="#0F172A" />
+            <text x="380" y="834" fill="#FFFFFF" fontSize="13" fontWeight="900" textAnchor="middle">SW</text>
+          </g>
+
+          {/* Outer Blueprint Frame */}
+          <rect x="42" y="45" width="356" height="765" rx="12" fill="#FFFFFF" stroke="#CBD5E1" strokeWidth="2" />
+
+          {/* Building Shell Outer Boundary */}
           <path
             d="M 110 70 L 330 70 L 330 720 L 310 775 L 130 775 L 110 720 Z"
             fill="#FFFFFF"
-            stroke="#000000"
-            strokeWidth="1.5"
+            stroke="#0F172A"
+            strokeWidth="2.5"
           />
 
-          {/* Bottom Curved Entrance Glass Arc */}
-          <path d="M 110 725 Q 220 775 330 725" fill="none" stroke="#000000" strokeWidth="2" />
-          <path d="M 110 750 L 140 780 M 330 750 L 300 780" stroke="#000000" strokeWidth="2" />
+          {/* Bottom Curved Glass Front Entrance Facade */}
+          <path d="M 110 725 Q 220 775 330 725" fill="none" stroke="#2563EB" strokeWidth="3" strokeDasharray="4 2" />
 
           {/* Central Corridor Hallway */}
-          <path d="M 195 70 L 195 720 M 215 70 L 215 720" stroke="#000000" strokeWidth="1" strokeDasharray="none" />
+          <rect x="195" y="70" width="20" height="650" fill="#F8FAFC" stroke="#94A3B8" strokeWidth="1.5" />
 
           {/* ──────── RIGHT SIDE ROOMS (TOP TO BOTTOM) ──────── */}
 
-          {/* S-Lab 1&2 */}
+          {/* S-Lab 1&2 (Cyan / Sky Tech Blue) */}
           <g onClick={() => onRoomClick(currentFloor.rooms[0])} className="cursor-pointer group">
             <rect
               x="215"
               y="70"
               width="115"
               height="105"
-              fill={isRoomSelected('node-slab-12') ? '#E0F2FE' : '#FFFFFF'}
-              stroke="#000000"
-              strokeWidth="1.5"
-              className="group-hover:fill-sky-50 transition-colors"
+              fill={isRoomSelected('node-slab-12') ? '#BAE6FD' : '#E0F2FE'}
+              stroke={isRoomSelected('node-slab-12') ? '#0284C7' : '#38BDF8'}
+              strokeWidth={isRoomSelected('node-slab-12') ? '3' : '2'}
+              rx="4"
+              className="group-hover:fill-sky-200 transition-colors"
             />
-            {/* Doorway opening */}
-            <path d="M 215 145 A 15 15 0 0 1 200 160" fill="none" stroke="#000000" strokeWidth="1" />
-            <text x="272" y="125" fill="#000000" fontSize="13" fontWeight="bold" textAnchor="middle">S-Lab 1&amp;2</text>
+            <rect x="220" y="75" width="60" height="16" rx="4" fill="#0284C7" />
+            <text x="250" y="87" fill="#FFFFFF" fontSize="9" fontWeight="800" textAnchor="middle">TECH LAB</text>
+            <text x="272" y="125" fill="#0369A1" fontSize="13" fontWeight="900" textAnchor="middle">🧪 S-Lab 1&amp;2</text>
           </g>
 
-          {/* S-Classroom 5 */}
+          {/* S-Classroom 5 (Purple / Violet) */}
           <g onClick={() => onRoomClick(currentFloor.rooms[1])} className="cursor-pointer group">
             <rect
               x="215"
               y="175"
               width="115"
               height="80"
-              fill={isRoomSelected('node-s-cr-5') ? '#E0F2FE' : '#FFFFFF'}
-              stroke="#000000"
-              strokeWidth="1.5"
-              className="group-hover:fill-sky-50 transition-colors"
+              fill={isRoomSelected('node-s-cr-5') ? '#DDD6FE' : '#F3E8FF'}
+              stroke={isRoomSelected('node-s-cr-5') ? '#7C3AED' : '#C084FC'}
+              strokeWidth={isRoomSelected('node-s-cr-5') ? '3' : '2'}
+              rx="4"
+              className="group-hover:fill-purple-200 transition-colors"
             />
-            <path d="M 215 240 A 15 15 0 0 1 200 255" fill="none" stroke="#000000" strokeWidth="1" />
-            <text x="272" y="220" fill="#000000" fontSize="13" fontWeight="bold" textAnchor="middle">S-Classroom 5</text>
+            <text x="272" y="220" fill="#6B21A8" fontSize="13" fontWeight="900" textAnchor="middle">📚 S-Classroom 5</text>
           </g>
 
-          {/* Classroom 4 */}
+          {/* Classroom 4 (Purple / Violet) */}
           <g onClick={() => onRoomClick(currentFloor.rooms[2])} className="cursor-pointer group">
             <rect
               x="215"
               y="255"
               width="115"
               height="80"
-              fill={isRoomSelected('node-cr-4') ? '#E0F2FE' : '#FFFFFF'}
-              stroke="#000000"
-              strokeWidth="1.5"
-              className="group-hover:fill-sky-50 transition-colors"
+              fill={isRoomSelected('node-cr-4') ? '#DDD6FE' : '#F3E8FF'}
+              stroke={isRoomSelected('node-cr-4') ? '#7C3AED' : '#C084FC'}
+              strokeWidth={isRoomSelected('node-cr-4') ? '3' : '2'}
+              rx="4"
+              className="group-hover:fill-purple-200 transition-colors"
             />
-            <path d="M 215 320 A 15 15 0 0 1 200 335" fill="none" stroke="#000000" strokeWidth="1" />
-            <text x="272" y="300" fill="#000000" fontSize="13" fontWeight="bold" textAnchor="middle">Classroom 4</text>
+            <text x="272" y="300" fill="#6B21A8" fontSize="13" fontWeight="900" textAnchor="middle">📚 Classroom 4</text>
           </g>
 
-          {/* S-Lab 3&4 */}
+          {/* S-Lab 3&4 (Cyan / Sky Tech Blue) */}
           <g onClick={() => onRoomClick(currentFloor.rooms[3])} className="cursor-pointer group">
             <rect
               x="215"
               y="335"
               width="115"
               height="130"
-              fill={isRoomSelected('node-slab-34') ? '#E0F2FE' : '#FFFFFF'}
-              stroke="#000000"
-              strokeWidth="1.5"
-              className="group-hover:fill-sky-50 transition-colors"
+              fill={isRoomSelected('node-slab-34') ? '#BAE6FD' : '#E0F2FE'}
+              stroke={isRoomSelected('node-slab-34') ? '#0284C7' : '#38BDF8'}
+              strokeWidth={isRoomSelected('node-slab-34') ? '3' : '2'}
+              rx="4"
+              className="group-hover:fill-sky-200 transition-colors"
             />
-            <path d="M 215 440 A 15 15 0 0 1 200 455" fill="none" stroke="#000000" strokeWidth="1" />
-            <text x="272" y="405" fill="#000000" fontSize="13" fontWeight="bold" textAnchor="middle">S-Lab 3&amp;4</text>
+            <rect x="220" y="340" width="60" height="16" rx="4" fill="#0284C7" />
+            <text x="250" y="352" fill="#FFFFFF" fontSize="9" fontWeight="800" textAnchor="middle">TECH LAB</text>
+            <text x="272" y="405" fill="#0369A1" fontSize="13" fontWeight="900" textAnchor="middle">🧪 S-Lab 3&amp;4</text>
           </g>
 
-          {/* Classroom 3 */}
+          {/* Classroom 3 (Purple / Violet) */}
           <g onClick={() => onRoomClick(currentFloor.rooms[4])} className="cursor-pointer group">
             <rect
               x="215"
               y="465"
               width="115"
               height="80"
-              fill={isRoomSelected('node-cr-3') ? '#E0F2FE' : '#FFFFFF'}
-              stroke="#000000"
-              strokeWidth="1.5"
-              className="group-hover:fill-sky-50 transition-colors"
+              fill={isRoomSelected('node-cr-3') ? '#DDD6FE' : '#F3E8FF'}
+              stroke={isRoomSelected('node-cr-3') ? '#7C3AED' : '#C084FC'}
+              strokeWidth={isRoomSelected('node-cr-3') ? '3' : '2'}
+              rx="4"
+              className="group-hover:fill-purple-200 transition-colors"
             />
-            <path d="M 215 530 A 15 15 0 0 1 200 545" fill="none" stroke="#000000" strokeWidth="1" />
-            <text x="272" y="510" fill="#000000" fontSize="13" fontWeight="bold" textAnchor="middle">Classroom 3</text>
+            <text x="272" y="510" fill="#6B21A8" fontSize="13" fontWeight="900" textAnchor="middle">📚 Classroom 3</text>
           </g>
 
-          {/* S-Classroom 2 */}
+          {/* S-Classroom 2 (Purple / Violet) */}
           <g onClick={() => onRoomClick(currentFloor.rooms[5])} className="cursor-pointer group">
             <rect
               x="215"
               y="545"
               width="115"
               height="75"
-              fill={isRoomSelected('node-s-cr-2') ? '#E0F2FE' : '#FFFFFF'}
-              stroke="#000000"
-              strokeWidth="1.5"
-              className="group-hover:fill-sky-50 transition-colors"
+              fill={isRoomSelected('node-s-cr-2') ? '#DDD6FE' : '#F3E8FF'}
+              stroke={isRoomSelected('node-s-cr-2') ? '#7C3AED' : '#C084FC'}
+              strokeWidth={isRoomSelected('node-s-cr-2') ? '3' : '2'}
+              rx="4"
+              className="group-hover:fill-purple-200 transition-colors"
             />
-            <path d="M 215 605 A 15 15 0 0 1 200 620" fill="none" stroke="#000000" strokeWidth="1" />
-            <text x="272" y="587" fill="#000000" fontSize="13" fontWeight="bold" textAnchor="middle">S-Classroom 2</text>
+            <text x="272" y="587" fill="#6B21A8" fontSize="13" fontWeight="900" textAnchor="middle">📚 S-Classroom 2</text>
           </g>
 
-          {/* S.Classroom 1 */}
+          {/* S.Classroom 1 (Purple / Violet) */}
           <g onClick={() => onRoomClick(currentFloor.rooms[6])} className="cursor-pointer group">
             <rect
               x="215"
               y="620"
               width="115"
               height="80"
-              fill={isRoomSelected('node-s-cr-1') ? '#E0F2FE' : '#FFFFFF'}
-              stroke="#000000"
-              strokeWidth="1.5"
-              className="group-hover:fill-sky-50 transition-colors"
+              fill={isRoomSelected('node-s-cr-1') ? '#DDD6FE' : '#F3E8FF'}
+              stroke={isRoomSelected('node-s-cr-1') ? '#7C3AED' : '#C084FC'}
+              strokeWidth={isRoomSelected('node-s-cr-1') ? '3' : '2'}
+              rx="4"
+              className="group-hover:fill-purple-200 transition-colors"
             />
-            <path d="M 215 680 A 15 15 0 0 1 200 695" fill="none" stroke="#000000" strokeWidth="1" />
-            <text x="272" y="665" fill="#000000" fontSize="13" fontWeight="bold" textAnchor="middle">S.Classroom 1</text>
+            <text x="272" y="665" fill="#6B21A8" fontSize="13" fontWeight="900" textAnchor="middle">📚 S.Classroom 1</text>
           </g>
 
           {/* ──────── LEFT SIDE ROOMS & CORE (TOP TO BOTTOM) ──────── */}
@@ -400,163 +431,151 @@ export const FloorSvgMap: React.FC<FloorSvgMapProps> = ({
               y="70"
               width="85"
               height="90"
-              fill={isRoomSelected('node-cr-6') ? '#E0F2FE' : '#FFFFFF'}
-              stroke="#000000"
-              strokeWidth="1.5"
-              className="group-hover:fill-sky-50 transition-colors"
+              fill={isRoomSelected('node-cr-6') ? '#DDD6FE' : '#F3E8FF'}
+              stroke={isRoomSelected('node-cr-6') ? '#7C3AED' : '#C084FC'}
+              strokeWidth={isRoomSelected('node-cr-6') ? '3' : '2'}
+              rx="4"
+              className="group-hover:fill-purple-200 transition-colors"
             />
-            <text x="152" y="120" fill="#000000" fontSize="12" fontWeight="bold" textAnchor="middle">Classroom 6</text>
+            <text x="152" y="120" fill="#6B21A8" fontSize="12" fontWeight="900" textAnchor="middle">📚 Classroom 6</text>
           </g>
 
-          {/* Staff Rooms */}
+          {/* Staff Rooms (Amber / Gold) */}
           <g onClick={() => onRoomClick(currentFloor.rooms[8])} className="cursor-pointer group">
             <rect
               x="122"
               y="160"
               width="73"
               height="80"
-              fill={isRoomSelected('node-staff-7') ? '#E0F2FE' : '#FFFFFF'}
-              stroke="#000000"
-              strokeWidth="1.5"
-              className="group-hover:fill-sky-50 transition-colors"
+              fill={isRoomSelected('node-staff-7') ? '#FDE68A' : '#FEF3C7'}
+              stroke={isRoomSelected('node-staff-7') ? '#D97706' : '#F59E0B'}
+              strokeWidth={isRoomSelected('node-staff-7') ? '3' : '2'}
+              rx="4"
+              className="group-hover:fill-amber-200 transition-colors"
             />
-            {/* Door swing */}
-            <path d="M 160 240 A 12 12 0 0 1 172 252" fill="none" stroke="#000000" strokeWidth="1" />
-            <text x="158" y="195" fill="#000000" fontSize="11" fontWeight="bold" textAnchor="middle">Staff</text>
-            <text x="158" y="210" fill="#000000" fontSize="11" fontWeight="bold" textAnchor="middle">Rooms</text>
+            <text x="158" y="195" fill="#92400E" fontSize="11" fontWeight="900" textAnchor="middle">👔 Staff</text>
+            <text x="158" y="210" fill="#92400E" fontSize="11" fontWeight="900" textAnchor="middle">Rooms</text>
           </g>
 
           {/* UPS */}
           <g className="cursor-pointer">
-            <rect x="110" y="250" width="85" height="22" fill="#FFFFFF" stroke="#000000" strokeWidth="1.5" />
-            <text x="152" y="265" fill="#000000" fontSize="10" fontWeight="bold" textAnchor="middle">UPS</text>
+            <rect x="110" y="250" width="85" height="22" rx="3" fill="#F1F5F9" stroke="#64748B" strokeWidth="1.5" />
+            <text x="152" y="265" fill="#334155" fontSize="10" fontWeight="800" textAnchor="middle">⚡ UPS</text>
           </g>
 
           {/* ELECTRICAL ROOM */}
           <g className="cursor-pointer">
-            <rect x="110" y="272" width="85" height="28" fill="#FFFFFF" stroke="#000000" strokeWidth="1.5" />
-            <text x="152" y="286" fill="#000000" fontSize="9" fontWeight="bold" textAnchor="middle">ELECTRICAL</text>
-            <text x="152" y="296" fill="#000000" fontSize="9" fontWeight="bold" textAnchor="middle">ROOM</text>
+            <rect x="110" y="272" width="85" height="28" rx="3" fill="#F1F5F9" stroke="#64748B" strokeWidth="1.5" />
+            <text x="152" y="290" fill="#334155" fontSize="9.5" fontWeight="800" textAnchor="middle">⚡ ELEC ROOM</text>
           </g>
 
-          {/* LADIES TOILET */}
+          {/* LADIES TOILET (Rose / Pink) */}
           <g className="cursor-pointer">
-            <rect x="110" y="300" width="85" height="50" fill="#FFFFFF" stroke="#000000" strokeWidth="1.5" />
-            {/* Toilet cubicle stalls */}
-            <line x1="130" y1="300" x2="130" y2="335" stroke="#000000" strokeWidth="1" />
-            <line x1="150" y1="300" x2="150" y2="335" stroke="#000000" strokeWidth="1" />
-            <text x="152" y="342" fill="#000000" fontSize="9.5" fontWeight="bold" textAnchor="middle">LADIES TOILET</text>
+            <rect x="110" y="300" width="85" height="50" rx="4" fill="#FCE7F3" stroke="#DB2777" strokeWidth="2" />
+            <text x="152" y="330" fill="#9D174D" fontSize="10 font-bold" fontWeight="900" textAnchor="middle">👩 LADIES TOILET</text>
           </g>
 
-          {/* LIFT (Double Lift Core) */}
+          {/* LIFT (Teal / Aqua) */}
           <g className="cursor-pointer">
-            <rect x="110" y="350" width="85" height="30" fill="#FFFFFF" stroke="#000000" strokeWidth="1.5" />
-            <line x1="152" y1="350" x2="152" y2="380" stroke="#000000" strokeWidth="1" />
-            {/* Cross diagonal lift lines */}
-            <line x1="110" y1="350" x2="152" y2="380" stroke="#000000" strokeWidth="0.8" />
-            <line x1="110" y1="380" x2="152" y2="350" stroke="#000000" strokeWidth="0.8" />
-            <text x="131" y="370" fill="#000000" fontSize="9" fontWeight="bold" textAnchor="middle">LIFT</text>
-            <text x="173" y="370" fill="#000000" fontSize="9" fontWeight="bold" textAnchor="middle">LIFT</text>
+            <rect x="110" y="350" width="85" height="30" rx="4" fill="#CCFBF1" stroke="#0D9488" strokeWidth="2" />
+            <line x1="152" y1="350" x2="152" y2="380" stroke="#0D9488" strokeWidth="1.5" />
+            <text x="131" y="370" fill="#0F766E" fontSize="9.5" fontWeight="900" textAnchor="middle">🛗 LIFT</text>
+            <text x="173" y="370" fill="#0F766E" fontSize="9.5" fontWeight="900" textAnchor="middle">🛗 LIFT</text>
           </g>
 
-          {/* STAIRCASE */}
+          {/* STAIRCASE (Slate / Steel) */}
           <g className="cursor-pointer">
-            <rect x="110" y="380" width="85" height="70" fill="#FFFFFF" stroke="#000000" strokeWidth="1.5" />
-            {/* Stair Treads */}
-            <line x1="110" y1="390" x2="195" y2="390" stroke="#000000" strokeWidth="0.8" />
-            <line x1="110" y1="400" x2="195" y2="400" stroke="#000000" strokeWidth="0.8" />
-            <line x1="110" y1="410" x2="195" y2="410" stroke="#000000" strokeWidth="0.8" />
-            <line x1="110" y1="420" x2="195" y2="420" stroke="#000000" strokeWidth="0.8" />
-            <line x1="110" y1="430" x2="195" y2="430" stroke="#000000" strokeWidth="0.8" />
-            <line x1="152" y1="380" x2="152" y2="450" stroke="#000000" strokeWidth="1" />
-            <text x="152" y="388" fill="#000000" fontSize="10" fontWeight="bold" textAnchor="middle">STAIRCASE</text>
+            <rect x="110" y="380" width="85" height="70" rx="4" fill="#F8FAFC" stroke="#475569" strokeWidth="2" />
+            <line x1="110" y1="395" x2="195" y2="395" stroke="#94A3B8" strokeWidth="1" />
+            <line x1="110" y1="410" x2="195" y2="410" stroke="#94A3B8" strokeWidth="1" />
+            <line x1="110" y1="425" x2="195" y2="425" stroke="#94A3B8" strokeWidth="1" />
+            <text x="152" y="390" fill="#1E293B" fontSize="10.5" fontWeight="900" textAnchor="middle">🪜 STAIRCASE</text>
           </g>
 
-          {/* GENTS TOILET */}
+          {/* GENTS TOILET (Indigo / Blue) */}
           <g className="cursor-pointer">
-            <rect x="110" y="450" width="85" height="50" fill="#FFFFFF" stroke="#000000" strokeWidth="1.5" />
-            <line x1="130" y1="450" x2="130" y2="485" stroke="#000000" strokeWidth="1" />
-            <line x1="150" y1="450" x2="150" y2="485" stroke="#000000" strokeWidth="1" />
-            <text x="152" y="493" fill="#000000" fontSize="9.5" fontWeight="bold" textAnchor="middle">GENTS TOILET</text>
+            <rect x="110" y="450" width="85" height="50" rx="4" fill="#E0E7FF" stroke="#4338CA" strokeWidth="2" />
+            <text x="152" y="480" fill="#3730A3" fontSize="10" fontWeight="900" textAnchor="middle">👨 GENTS TOILET</text>
           </g>
 
-          {/* Breakout Space */}
+          {/* Breakout Space (Emerald / Green) */}
           <g onClick={() => onRoomClick(currentFloor.rooms[9])} className="cursor-pointer group">
             <rect
               x="110"
               y="500"
               width="85"
               height="90"
-              fill={isRoomSelected('node-breakout-7') ? '#E0F2FE' : '#FFFFFF'}
-              stroke="#000000"
-              strokeWidth="1.5"
-              className="group-hover:fill-sky-50 transition-colors"
+              fill={isRoomSelected('node-breakout-7') ? '#A7F3D0' : '#D1FAE5'}
+              stroke={isRoomSelected('node-breakout-7') ? '#059669' : '#10B981'}
+              strokeWidth={isRoomSelected('node-breakout-7') ? '3' : '2'}
+              rx="4"
+              className="group-hover:fill-emerald-200 transition-colors"
             />
-            <text x="152" y="540" fill="#000000" fontSize="12" fontWeight="bold" textAnchor="middle">Breakout</text>
-            <text x="152" y="556" fill="#000000" fontSize="12" fontWeight="bold" textAnchor="middle">Space</text>
+            <rect x="115" y="505" width="55" height="15" rx="4" fill="#059669" />
+            <text x="142" y="516" fill="#FFFFFF" fontSize="8.5" fontWeight="800" textAnchor="middle">LOUNGE</text>
+            <text x="152" y="546" fill="#065F46" fontSize="12" fontWeight="900" textAnchor="middle">☕ Breakout</text>
+            <text x="152" y="562" fill="#065F46" fontSize="12" fontWeight="900" textAnchor="middle">Space</text>
           </g>
 
           {/* Lower STAIRCASE & LIFT CORE */}
           <g className="cursor-pointer">
-            <rect x="110" y="590" width="85" height="55" fill="#FFFFFF" stroke="#000000" strokeWidth="1.5" />
-            {/* Stair Treads */}
-            <line x1="110" y1="600" x2="170" y2="600" stroke="#000000" strokeWidth="0.8" />
-            <line x1="110" y1="610" x2="170" y2="610" stroke="#000000" strokeWidth="0.8" />
-            <line x1="110" y1="620" x2="170" y2="620" stroke="#000000" strokeWidth="0.8" />
-            <line x1="140" y1="590" x2="140" y2="645" stroke="#000000" strokeWidth="1" />
+            <rect x="110" y="590" width="85" height="55" rx="4" fill="#F8FAFC" stroke="#475569" strokeWidth="2" />
+            <line x1="110" y1="605" x2="170" y2="605" stroke="#94A3B8" strokeWidth="1" />
+            <line x1="110" y1="620" x2="170" y2="620" stroke="#94A3B8" strokeWidth="1" />
+            <text x="140" y="618" fill="#1E293B" fontSize="9" fontWeight="900" textAnchor="middle">🪜 STAIRS</text>
           </g>
 
-          {/* LIFT LIFT & LIFT */}
+          {/* LIFT LIFT & LIFT (Teal / Aqua) */}
           <g className="cursor-pointer">
-            <rect x="110" y="645" width="30" height="30" fill="#FFFFFF" stroke="#000000" strokeWidth="1.5" />
-            <rect x="143" y="645" width="30" height="30" fill="#FFFFFF" stroke="#000000" strokeWidth="1.5" />
-            <rect x="110" y="685" width="30" height="30" fill="#FFFFFF" stroke="#000000" strokeWidth="1.5" />
-            <text x="125" y="663" fill="#000000" fontSize="8" fontWeight="bold" textAnchor="middle">LIFT</text>
-            <text x="158" y="663" fill="#000000" fontSize="8" fontWeight="bold" textAnchor="middle">LIFT</text>
-            <text x="125" y="703" fill="#000000" fontSize="8" fontWeight="bold" textAnchor="middle">LIFT</text>
+            <rect x="110" y="645" width="30" height="30" rx="3" fill="#CCFBF1" stroke="#0D9488" strokeWidth="1.5" />
+            <rect x="143" y="645" width="30" height="30" rx="3" fill="#CCFBF1" stroke="#0D9488" strokeWidth="1.5" />
+            <rect x="110" y="685" width="30" height="30" rx="3" fill="#CCFBF1" stroke="#0D9488" strokeWidth="1.5" />
+            <text x="125" y="664" fill="#0F766E" fontSize="8" fontWeight="900" textAnchor="middle">🛗 LIFT</text>
+            <text x="158" y="664" fill="#0F766E" fontSize="8" fontWeight="900" textAnchor="middle">🛗 LIFT</text>
+            <text x="125" y="704" fill="#0F766E" fontSize="8" fontWeight="900" textAnchor="middle">🛗 LIFT</text>
           </g>
 
-          {/* Lobby Area */}
-          <text x="180" y="690" fill="#000000" fontSize="14" fontWeight="bold" textAnchor="middle">Lobby</text>
+          {/* Lobby Entrance Area (Warm Sunset Gradient) */}
+          <g className="cursor-pointer">
+            <rect x="175" y="660" width="150" height="55" rx="8" fill="url(#lobbyGrad)" stroke="#EA580C" strokeWidth="2" />
+            <text x="250" y="688" fill="#C2410C" fontSize="14" fontWeight="900" textAnchor="middle">📍 Main Entrance Lobby</text>
+            <text x="250" y="705" fill="#9A3412" fontSize="9.5" fontWeight="700" textAnchor="middle">Welcome to Floor 7</text>
+          </g>
 
+          {/* Newcomer Entrance Beacon Indicator */}
+          <g transform="translate(250, 750)" className="cursor-pointer">
+            <circle r="14" fill="#10B981" opacity="0.35" className="animate-ping" />
+            <circle r="7" fill="#10B981" stroke="#FFFFFF" strokeWidth="2" />
+          </g>
 
-          {/* ──────── SOLID BLACK STRUCTURAL COLUMNS ──────── */}
+          {/* ──────── STRUCTURAL COLUMNS (Navy Dark Pillars) ──────── */}
+          <rect x="105" y="65" width="10" height="10" fill="#0F172A" rx="1" />
+          <rect x="210" y="65" width="10" height="10" fill="#0F172A" rx="1" />
+          <rect x="325" y="65" width="10" height="10" fill="#0F172A" rx="1" />
 
-          {/* Row 1 (y=70) */}
-          <rect x="105" y="65" width="10" height="10" fill="#000000" />
-          <rect x="210" y="65" width="10" height="10" fill="#000000" />
-          <rect x="325" y="65" width="10" height="10" fill="#000000" />
+          <rect x="105" y="170" width="10" height="10" fill="#0F172A" rx="1" />
+          <rect x="210" y="170" width="10" height="10" fill="#0F172A" rx="1" />
+          <rect x="325" y="170" width="10" height="10" fill="#0F172A" rx="1" />
 
-          {/* Row 2 (y=175) */}
-          <rect x="105" y="170" width="10" height="10" fill="#000000" />
-          <rect x="210" y="170" width="10" height="10" fill="#000000" />
-          <rect x="325" y="170" width="10" height="10" fill="#000000" />
+          <rect x="210" y="250" width="10" height="10" fill="#0F172A" rx="1" />
+          <rect x="325" y="250" width="10" height="10" fill="#0F172A" rx="1" />
 
-          {/* Row 3 (y=255) */}
-          <rect x="210" y="250" width="10" height="10" fill="#000000" />
-          <rect x="325" y="250" width="10" height="10" fill="#000000" />
+          <rect x="210" y="330" width="10" height="10" fill="#0F172A" rx="1" />
+          <rect x="325" y="330" width="10" height="10" fill="#0F172A" rx="1" />
 
-          {/* Row 4 (y=335) */}
-          <rect x="210" y="330" width="10" height="10" fill="#000000" />
-          <rect x="325" y="330" width="10" height="10" fill="#000000" />
+          <rect x="105" y="460" width="10" height="10" fill="#0F172A" rx="1" />
+          <rect x="210" y="460" width="10" height="10" fill="#0F172A" rx="1" />
+          <rect x="325" y="460" width="10" height="10" fill="#0F172A" rx="1" />
 
-          {/* Row 5 (y=465) */}
-          <rect x="105" y="460" width="10" height="10" fill="#000000" />
-          <rect x="210" y="460" width="10" height="10" fill="#000000" />
-          <rect x="325" y="460" width="10" height="10" fill="#000000" />
+          <rect x="105" y="540" width="10" height="10" fill="#0F172A" rx="1" />
+          <rect x="210" y="540" width="10" height="10" fill="#0F172A" rx="1" />
+          <rect x="325" y="540" width="10" height="10" fill="#0F172A" rx="1" />
 
-          {/* Row 6 (y=545) */}
-          <rect x="105" y="540" width="10" height="10" fill="#000000" />
-          <rect x="210" y="540" width="10" height="10" fill="#000000" />
-          <rect x="325" y="540" width="10" height="10" fill="#000000" />
+          <rect x="105" y="615" width="10" height="10" fill="#0F172A" rx="1" />
+          <rect x="210" y="615" width="10" height="10" fill="#0F172A" rx="1" />
+          <rect x="325" y="615" width="10" height="10" fill="#0F172A" rx="1" />
 
-          {/* Row 7 (y=620) */}
-          <rect x="105" y="615" width="10" height="10" fill="#000000" />
-          <rect x="210" y="615" width="10" height="10" fill="#000000" />
-          <rect x="325" y="615" width="10" height="10" fill="#000000" />
-
-          {/* Row 8 (y=700) */}
-          <rect x="325" y="695" width="10" height="10" fill="#000000" />
+          <rect x="325" y="695" width="10" height="10" fill="#0F172A" rx="1" />
         </svg>
       </div>
     );
