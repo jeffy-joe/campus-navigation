@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Sidebar, ActiveTab } from './components/Sidebar';
 import { Header } from './components/Header';
 import { MobileNav } from './components/MobileNav';
@@ -13,18 +13,50 @@ import { findShortestPath } from './utils/pathfinder';
 import { CategoryType, Room } from './types/campus';
 
 export function App() {
-  const [activeTab, setActiveTab] = useState<ActiveTab>('dashboard');
+  const [activeTab, setActiveTab] = useState<ActiveTab>(() => {
+    const saved = localStorage.getItem('campus_activeTab');
+    return (saved as ActiveTab) || 'dashboard';
+  });
 
-  // Initial navigation state (empty by default)
-  const [currentLocationId, setCurrentLocationId] = useState('');
-  const [destinationId, setDestinationId] = useState('');
-  const [selectedFloorCode, setSelectedFloorCode] = useState('4');
+  // Initial navigation state (persisted in localStorage)
+  const [currentLocationId, setCurrentLocationId] = useState<string>(() => {
+    return localStorage.getItem('campus_currentLocationId') || '';
+  });
+  const [destinationId, setDestinationId] = useState<string>(() => {
+    return localStorage.getItem('campus_destinationId') || '';
+  });
+  const [selectedFloorCode, setSelectedFloorCode] = useState<string>(() => {
+    return localStorage.getItem('campus_selectedFloorCode') || '4';
+  });
   const [activeModalRoom, setActiveModalRoom] = useState<Room | null>(null);
-  const [showRouteOverview, setShowRouteOverview] = useState(false);
+  const [showRouteOverview, setShowRouteOverview] = useState<boolean>(() => {
+    return localStorage.getItem('campus_showRouteOverview') === 'true';
+  });
 
   // State for asking current location modal when navigating from Explore Floors / RoomModal
   const [isLocationPickerOpen, setIsLocationPickerOpen] = useState(false);
   const [pendingDestinationId, setPendingDestinationId] = useState<string | null>(null);
+
+  // Sync state changes to localStorage
+  useEffect(() => {
+    localStorage.setItem('campus_activeTab', activeTab);
+  }, [activeTab]);
+
+  useEffect(() => {
+    localStorage.setItem('campus_currentLocationId', currentLocationId);
+  }, [currentLocationId]);
+
+  useEffect(() => {
+    localStorage.setItem('campus_destinationId', destinationId);
+  }, [destinationId]);
+
+  useEffect(() => {
+    localStorage.setItem('campus_selectedFloorCode', selectedFloorCode);
+  }, [selectedFloorCode]);
+
+  useEffect(() => {
+    localStorage.setItem('campus_showRouteOverview', String(showRouteOverview));
+  }, [showRouteOverview]);
 
   const allLocations = useMemo(() => getAllSearchableLocations(), []);
 

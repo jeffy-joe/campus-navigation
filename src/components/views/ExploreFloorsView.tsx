@@ -33,7 +33,17 @@ export const ExploreFloorsView: React.FC<ExploreFloorsViewProps> = ({
   onNavigateToRoom,
   onViewFloorOnMap,
 }) => {
-  const [expandedFloorId, setExpandedFloorId] = useState<string | null>(null);
+  const [expandedFloorId, setExpandedFloorId] = useState<string | null>(() => {
+    return localStorage.getItem('campus_expandedFloorId') || null;
+  });
+
+  React.useEffect(() => {
+    if (expandedFloorId) {
+      localStorage.setItem('campus_expandedFloorId', expandedFloorId);
+    } else {
+      localStorage.removeItem('campus_expandedFloorId');
+    }
+  }, [expandedFloorId]);
 
   const getFloorIcon = (iconName: string) => {
     switch (iconName) {
