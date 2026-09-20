@@ -646,19 +646,26 @@ export const NAVIGATION_NODES: Record<string, NavigationNode> = {
     ]
   },
 
-  // === FLOOR 7 (AVIATION & SIMULATORS) ===
+  // === FLOOR 7 ===
   'node-elevator-7': {
     id: 'node-elevator-7',
     name: 'Elevator (Floor 7)',
     floorCode: '7',
     floorNumber: 7,
-    x: 200,
-    y: 260,
+    x: 220,
+    y: 600,
     type: 'elevator',
     connections: [
-      { targetId: 'node-flight-sim', distance: 18, instruction: 'Turn left to Aircraft Simulator Lab' },
-      { targetId: 'node-aerodynamics', distance: 20, instruction: 'Turn right to Aerodynamics Wind Tunnel Lab' },
-      { targetId: 'node-propulsion', distance: 25, instruction: 'Walk straight to Propulsion & Aero Engine Lab' }
+      { targetId: 'node-slab-12', distance: 35, instruction: 'Walk down central corridor to S-Lab 1&2' },
+      { targetId: 'node-s-cr-5', distance: 30, instruction: 'Walk down central corridor to S-Classroom 5' },
+      { targetId: 'node-cr-4', distance: 25, instruction: 'Walk down central corridor to Classroom 4' },
+      { targetId: 'node-slab-34', distance: 20, instruction: 'Walk down central corridor to S-Lab 3&4' },
+      { targetId: 'node-cr-3', distance: 15, instruction: 'Walk along corridor to Classroom 3' },
+      { targetId: 'node-s-cr-2', distance: 12, instruction: 'Walk along corridor to S-Classroom 2' },
+      { targetId: 'node-s-cr-1', distance: 10, instruction: 'Turn into S.Classroom 1' },
+      { targetId: 'node-cr-6', distance: 35, instruction: 'Walk up central corridor to Classroom 6' },
+      { targetId: 'node-staff-7', distance: 30, instruction: 'Walk along corridor to Staff Rooms' },
+      { targetId: 'node-breakout-7', distance: 15, instruction: 'Walk right into Breakout Space' },
     ]
   },
   'node-stairs-7': {
@@ -666,48 +673,133 @@ export const NAVIGATION_NODES: Record<string, NavigationNode> = {
     name: 'Stairs (Floor 7)',
     floorCode: '7',
     floorNumber: 7,
-    x: 95,
-    y: 180,
+    x: 120,
+    y: 350,
     type: 'stair',
     connections: [
+      { targetId: 'node-elevator-7', distance: 15, instruction: 'Walk along corridor to Elevator' },
       { targetId: 'node-stairs-6', distance: 20, instruction: 'Walk down to Floor 6' },
       { targetId: 'node-stairs-8', distance: 20, instruction: 'Walk up to Floor 8' }
     ]
   },
-  'node-flight-sim': {
-    id: 'node-flight-sim',
-    name: 'Aircraft Simulator Lab',
+  'node-slab-12': {
+    id: 'node-slab-12',
+    name: 'S-Lab 1&2',
     floorCode: '7',
     floorNumber: 7,
-    x: 100,
-    y: 100,
+    x: 325,
+    y: 90,
     type: 'room',
     connections: [
-      { targetId: 'node-elevator-7', distance: 18, instruction: 'Exit Simulator Lab to Elevator' }
+      { targetId: 'node-elevator-7', distance: 35, instruction: 'Exit S-Lab 1&2 into central corridor' }
     ]
   },
-  'node-aerodynamics': {
-    id: 'node-aerodynamics',
-    name: 'Aerodynamics Lab (Wind Tunnel)',
+  'node-s-cr-5': {
+    id: 'node-s-cr-5',
+    name: 'S-Classroom 5',
     floorCode: '7',
     floorNumber: 7,
-    x: 280,
-    y: 100,
+    x: 325,
+    y: 180,
     type: 'room',
     connections: [
-      { targetId: 'node-elevator-7', distance: 20, instruction: 'Exit Aerodynamics Lab' }
+      { targetId: 'node-elevator-7', distance: 30, instruction: 'Exit S-Classroom 5 into central corridor' }
     ]
   },
-  'node-propulsion': {
-    id: 'node-propulsion',
-    name: 'Propulsion & Aero Engine Lab',
+  'node-cr-4': {
+    id: 'node-cr-4',
+    name: 'Classroom 4',
     floorCode: '7',
     floorNumber: 7,
-    x: 200,
-    y: 200,
+    x: 325,
+    y: 265,
     type: 'room',
     connections: [
-      { targetId: 'node-elevator-7', distance: 25, instruction: 'Exit Propulsion Lab' }
+      { targetId: 'node-elevator-7', distance: 25, instruction: 'Exit Classroom 4 into central corridor' }
+    ]
+  },
+  'node-slab-34': {
+    id: 'node-slab-34',
+    name: 'S-Lab 3&4',
+    floorCode: '7',
+    floorNumber: 7,
+    x: 325,
+    y: 360,
+    type: 'room',
+    connections: [
+      { targetId: 'node-elevator-7', distance: 20, instruction: 'Exit S-Lab 3&4 into central corridor' }
+    ]
+  },
+  'node-cr-3': {
+    id: 'node-cr-3',
+    name: 'Classroom 3',
+    floorCode: '7',
+    floorNumber: 7,
+    x: 325,
+    y: 455,
+    type: 'room',
+    connections: [
+      { targetId: 'node-elevator-7', distance: 15, instruction: 'Exit Classroom 3 into central corridor' }
+    ]
+  },
+  'node-s-cr-2': {
+    id: 'node-s-cr-2',
+    name: 'S-Classroom 2',
+    floorCode: '7',
+    floorNumber: 7,
+    x: 325,
+    y: 540,
+    type: 'room',
+    connections: [
+      { targetId: 'node-elevator-7', distance: 12, instruction: 'Exit S-Classroom 2 into central corridor' }
+    ]
+  },
+  'node-s-cr-1': {
+    id: 'node-s-cr-1',
+    name: 'S.Classroom 1',
+    floorCode: '7',
+    floorNumber: 7,
+    x: 325,
+    y: 625,
+    type: 'room',
+    connections: [
+      { targetId: 'node-elevator-7', distance: 10, instruction: 'Exit S.Classroom 1 into lobby corridor' }
+    ]
+  },
+  'node-cr-6': {
+    id: 'node-cr-6',
+    name: 'Classroom 6',
+    floorCode: '7',
+    floorNumber: 7,
+    x: 117,
+    y: 90,
+    type: 'room',
+    connections: [
+      { targetId: 'node-elevator-7', distance: 35, instruction: 'Exit Classroom 6 into central corridor' }
+    ]
+  },
+  'node-staff-7': {
+    id: 'node-staff-7',
+    name: 'Staff Rooms',
+    floorCode: '7',
+    floorNumber: 7,
+    x: 122,
+    y: 175,
+    type: 'room',
+    connections: [
+      { targetId: 'node-elevator-7', distance: 30, instruction: 'Exit Staff Rooms into corridor' }
+    ]
+  },
+  'node-breakout-7': {
+    id: 'node-breakout-7',
+    name: 'Breakout Space',
+    floorCode: '7',
+    floorNumber: 7,
+    x: 122,
+    y: 480,
+    type: 'room',
+    connections: [
+      { targetId: 'node-elevator-7', distance: 15, instruction: 'Exit Breakout Space into corridor' }
     ]
   },
 
