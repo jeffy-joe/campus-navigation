@@ -58,6 +58,66 @@ export function App() {
     localStorage.setItem('campus_showRouteOverview', String(showRouteOverview));
   }, [showRouteOverview]);
 
+  // Tab change with browser history entry
+  const changeTab = (tab: ActiveTab) => {
+    setActiveTab(tab);
+    const hash = `#${tab}`;
+    if (window.location.hash !== hash) {
+      window.history.pushState({ tab }, '', hash);
+    }
+  };
+
+  // Open Room Modal with history entry
+  const handleOpenRoomModal = (room: Room | null) => {
+    setActiveModalRoom(room);
+    if (room) {
+      window.history.pushState({ modal: 'room' }, '');
+    }
+  };
+
+  // Open Location Picker with history entry
+  const handleOpenLocationPicker = (open: boolean) => {
+    setIsLocationPickerOpen(open);
+    if (open) {
+      window.history.pushState({ modal: 'locationPicker' }, '');
+    }
+  };
+
+  // Listen to mobile hardware / gesture Back button (popstate event)
+  useEffect(() => {
+    // Initial hash setup
+    const initialHash = window.location.hash.replace('#', '') as ActiveTab;
+    if (!window.location.hash) {
+      window.history.replaceState({ tab: activeTab }, '', `#${activeTab}`);
+    } else if (['dashboard', 'navigate', 'explore', 'map'].includes(initialHash)) {
+      setActiveTab(initialHash);
+    }
+
+    const handlePopState = () => {
+      // 1. If Room Modal is open, close it first
+      if (activeModalRoom) {
+        setActiveModalRoom(null);
+        return;
+      }
+      // 2. If Location Picker Modal is open, close it first
+      if (isLocationPickerOpen) {
+        setIsLocationPickerOpen(false);
+        setPendingDestinationId(null);
+        return;
+      }
+      // 3. Otherwise, update tab to match the URL hash (or fallback to dashboard)
+      const currentHash = window.location.hash.replace('#', '') as ActiveTab;
+      if (['dashboard', 'navigate', 'explore', 'map'].includes(currentHash)) {
+        setActiveTab(currentHash);
+      } else {
+        setActiveTab('dashboard');
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, [activeModalRoom, isLocationPickerOpen]);
+
   const allLocations = useMemo(() => getAllSearchableLocations(), []);
 
   const pendingDestinationObj = useMemo(() => {
@@ -84,11 +144,11 @@ export function App() {
       setSelectedFloorCode(destLoc.floorCode);
     }
     setShowRouteOverview(true);
-    setActiveTab('navigate');
+    changeTab('navigate');
   };
 
   const handleCategoryClick = (_cat: CategoryType) => {
-    setActiveTab('explore');
+    changeTab('explore');
   };
 
   const handleNavigateToRoom = (roomId: string) => {
@@ -99,7 +159,7 @@ export function App() {
       setSelectedFloorCode(loc.floorCode);
     }
     // Always ask for current location when navigating to a room/floor from Explore Floors
-    setIsLocationPickerOpen(true);
+    handleOpenLocationPicker(true);
   };
 
   const handleSelectStartLocationForNav = (startId: string) => {
@@ -112,14 +172,18 @@ export function App() {
       }
     }
     setShowRouteOverview(true);
-    setActiveTab('navigate');
+    changeTab('navigate');
     setIsLocationPickerOpen(false);
     setPendingDestinationId(null);
   };
 
   const handleCloseLocationPicker = () => {
-    setIsLocationPickerOpen(false);
-    setPendingDestinationId(null);
+    if (window.history.state?.modal === 'locationPicker') {
+      window.history.back();
+    } else {
+      setIsLocationPickerOpen(false);
+      setPendingDestinationId(null);
+    }
   };
 
   const handleSetAsStart = (roomId: string) => {
@@ -129,7 +193,7 @@ export function App() {
 
   const handleViewFloorOnMap = (floorCode: string) => {
     setSelectedFloorCode(floorCode);
-    setActiveTab('map');
+    changeTab('map');
   };
 
   const getHeaderTitle = () => {
@@ -147,7 +211,7 @@ export function App() {
       {/* Desktop Sidebar */}
       <Sidebar
         activeTab={activeTab}
-        onTabChange={setActiveTab}
+        onTabChange={changeTab}
       />
 
       {/* Main Workspace Area */}
@@ -183,14 +247,14 @@ export function App() {
                 if (navResult?.destinationNode.floorCode) {
                   setSelectedFloorCode(navResult.destinationNode.floorCode);
                 }
-                setActiveTab('map');
+                changeTab('map');
               }}
             />
           )}
 
           {activeTab === 'explore' && (
             <ExploreFloorsView
-              onSelectRoom={setActiveModalRoom}
+              onSelectRoom={handleOpenRoomModal}
               onNavigateToRoom={handleNavigateToRoom}
               onViewFloorOnMap={handleViewFloorOnMap}
             />
@@ -200,7 +264,7 @@ export function App() {
             <CampusMapView
               selectedFloorCode={selectedFloorCode}
               onSelectFloorCode={setSelectedFloorCode}
-              onRoomClick={setActiveModalRoom}
+              onRoomClick={handleOpenRoomModal}
             />
           )}
         </main>
@@ -209,13 +273,19 @@ export function App() {
       {/* Mobile Bottom Navigation */}
       <MobileNav
         activeTab={activeTab}
-        onTabChange={setActiveTab}
+        onTabChange={changeTab}
       />
 
       {/* Clicked Room Details Modal */}
       <RoomModal
         room={activeModalRoom}
-        onClose={() => setActiveModalRoom(null)}
+        onClose={() => {
+          if (window.history.state?.modal === 'room') {
+            window.history.back();
+          } else {
+            setActiveModalRoom(null);
+          }
+        }}
         onNavigateHere={handleNavigateToRoom}
         onSetAsStart={handleSetAsStart}
       />
