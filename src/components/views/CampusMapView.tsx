@@ -28,24 +28,10 @@ export const CampusMapView: React.FC<CampusMapViewProps> = ({
 
   return (
     <div className="max-w-5xl mx-auto space-y-4 pb-28 lg:pb-10 animate-in fade-in">
-      {/* Newcomer Guidance Banner */}
-      <div className="bg-gradient-to-r from-sky-600 via-indigo-600 to-purple-600 text-white rounded-3xl p-4 sm:p-5 shadow-lg flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center text-xl shrink-0">
-            🧭
-          </div>
-          <div>
-            <h3 className="font-extrabold text-sm sm:text-base">First Time Here? Newcomer Campus Guide</h3>
-            <p className="text-xs text-sky-100 font-medium">
-              Tap any room on the map to see details, capacity, and start instant walking directions.
-            </p>
-          </div>
-        </div>
-      </div>
-
-      {/* Top Map Action Bar & Floor Picker */}
+      {/* Top Map Action Bar */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-3.5 sm:p-4 rounded-3xl border border-slate-100 shadow-soft">
         <div className="flex items-center gap-2.5">
+          {/* Popup trigger button replacing old native select dropdown */}
           <button
             onClick={() => setIsFloorPickerOpen(true)}
             className="flex items-center gap-2.5 bg-primary-600 hover:bg-primary-700 text-white font-bold text-xs sm:text-sm px-4 py-2.5 rounded-2xl shadow-md shadow-primary-600/20 transition-all hover:shadow-lg hover:shadow-primary-600/30 active:scale-95 group"
@@ -59,14 +45,9 @@ export const CampusMapView: React.FC<CampusMapViewProps> = ({
           </button>
         </div>
 
-        {/* Color Legend Bar for Newcomers */}
-        <div className="flex flex-wrap items-center gap-2 text-xs font-semibold">
-          <span className="px-2.5 py-1 rounded-xl bg-sky-100 text-sky-800 border border-sky-200">🧪 Tech &amp; Labs</span>
-          <span className="px-2.5 py-1 rounded-xl bg-purple-100 text-purple-800 border border-purple-200">📚 Classrooms</span>
-          <span className="px-2.5 py-1 rounded-xl bg-amber-100 text-amber-800 border border-amber-200">👔 Staff Rooms</span>
-          <span className="px-2.5 py-1 rounded-xl bg-emerald-100 text-emerald-800 border border-emerald-200">☕ Breakout</span>
-          <span className="px-2.5 py-1 rounded-xl bg-teal-100 text-teal-800 border border-teal-200">🛗 Elevators &amp; Lobby</span>
-        </div>
+        <span className="text-xs text-slate-500 font-medium truncate max-w-sm hidden sm:inline">
+          {activeFloorObj.subtitle}
+        </span>
       </div>
 
       {/* Main Interactive Map Canvas Box */}
